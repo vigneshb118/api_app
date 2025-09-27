@@ -5,28 +5,26 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def create
-    user_message = Message.create!(
+    Message.create!(
       content: message_params[:content],
       message_type: "user",
       user_id: message_params[:user_id]
     )
 
+    rag_service = RagService.new
+    bot_response = rag_service.generate_response(message_params[:content])
     bot_message = Message.create!(
-      content: generate_bot_response(message_params[:content]),
+      content: bot_response,
       message_type: "bot",
       user_id: nil
     )
 
     render json: {
-      messages: [ user_message, bot_message ].map do |message|
-        {
-          timestamp: message.created_at.iso8601,
-          id: message.id,
-          type: message.message_type,
-          content: message.content
+          timestamp: bot_message.created_at.iso8601,
+          id: bot_message.id,
+          type: bot_message.message_type,
+          content: bot_message.content
         }
-      end
-    }
   end
 
   private

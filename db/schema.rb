@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2) do
+ActiveRecord::Schema[8.0].define(version: 3) do
+  create_table "document_chunks", force: :cascade do |t|
+    t.text "content", null: false
+    t.text "embedding", null: false
+    t.string "source", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source"], name: "index_document_chunks_on_source"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "content", null: false
     t.string "message_type", null: false
