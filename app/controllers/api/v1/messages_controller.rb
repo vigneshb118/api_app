@@ -18,14 +18,10 @@ class Api::V1::MessagesController < ApplicationController
     )
 
     render json: {
-      messages: [ user_message, bot_message ].map do |message|
-        {
-          timestamp: message.created_at.iso8601,
-          id: message.id,
-          type: message.message_type,
-          content: message.content
-        }
-      end
+      timestamp: bot_message.created_at.iso8601,
+      id: bot_message.id,
+      type: bot_message.message_type,
+      content: bot_message.content
     }
   end
 
@@ -49,14 +45,14 @@ class Api::V1::MessagesController < ApplicationController
   end
 
   def generate_bot_response(user_content)
-    responses = [
-      "That's an interesting question! Let me think about that.",
-      "I understand what you're asking. Here's what I think...",
-      "Thanks for sharing that with me. Here's my response:",
-      "I see what you mean. Let me help you with that.",
-      "That's a great point! Here's what I would suggest:"
-    ]
+    begin
+      policy_service = PolicyProcessingService.new
+      policy_service.generate_rag_response(user_content)
+    rescue => e
+      Rails.logger.error "RAG Response Error: #{e.message}"
 
-    responses.sample + " You said: '#{user_content}'"
+      # Fallback response
+      "I apologize, but I'm having trouble accessing the policy information right now. Please ensure your OpenAI API key is configured and try again."
+    end
   end
 end

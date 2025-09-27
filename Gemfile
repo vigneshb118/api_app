@@ -35,6 +35,25 @@ gem "thruster", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 # gem "rack-cors"
 
+# Excel file processing
+gem "roo", "~> 2.8"
+gem "csv", "~> 3.2"
+
+# OpenAI integration
+gem "ruby-openai", "~> 6.3"
+
+# HTTP client for API calls
+gem "faraday", "~> 2.7"
+
+# JSON processing
+gem "json", "~> 2.6"
+
+# Vector similarity calculations
+gem "matrix", "~> 0.4"
+
+# Environment variables
+gem "dotenv-rails", "~> 2.8"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
