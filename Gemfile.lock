@@ -168,7 +168,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    openai (0.5.1)
+    openai (0.27.0)
       connection_pool
     ostruct (0.6.3)
     parallel (1.27.0)
